@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:fillViewport="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <ImageView
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -16,111 +16,113 @@
             android:scaleType="fitCenter"
             android:src="@drawable/bjj2"
             android:layout_width="wrap_content"/>
-
         <LinearLayout
             android:layout_weight="5"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            tools:context="com.example.android.courtcounter.MainActivity">
+            android:layout_height="wrap_content">
             <LinearLayout
-                style="@style/Vertical_style">
-                <TextView
-                    style="@style/corner_title_style"
-                    android:text="@string/blue_corner"
-                    android:textColor="@color/blueColor"/>
-                <TextView
-                    android:id="@+id/blue_points_view"
-                    style="@style/point_display_style"
-                    android:text="@string/default_score"
-                    android:textColor="@color/blueColor"/>
-                <TextView
-                    android:id="@+id/blue_advantages_view"
-                    style="@style/advantage_display_style"
-                    android:text="@string/default_score"
-                    android:textColor="@color/blueColor"/>
-                <Button
-                    android:id="@+id/blue_4points"
-                    style="@style/button_style"
-                    android:background="@color/blueColor"
-                    android:text="@string/points4" />
-                <Button
-                    android:id="@+id/blue_3points"
-                    style="@style/button_style"
-                    android:background="@color/blueColor"
-                    android:text="@string/points3" />
-                <Button
-                    android:id="@+id/blue_2points"
-                    style="@style/button_style"
-                    android:background="@color/blueColor"
-                    android:text="@string/points2" />
-                <Button
-                    android:id="@+id/blue_advantage"
-                    style="@style/button_style"
-                    android:background="@color/blueColor"
-                    android:text="@string/advantage" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:context="com.example.android.courtcounter.MainActivity">
+                <LinearLayout
+                    style="@style/Vertical_style">
+                    <TextView
+                        style="@style/corner_title_style"
+                        android:text="@string/blue_corner"
+                        android:textColor="@color/blueColor"/>
+                    <TextView
+                        android:id="@+id/blue_points_view"
+                        style="@style/point_display_style"
+                        android:text="@string/default_score"
+                        android:textColor="@color/blueColor"/>
+                    <TextView
+                        android:id="@+id/blue_advantages_view"
+                        style="@style/advantage_display_style"
+                        android:text="@string/default_score"
+                        android:textColor="@color/blueColor"/>
+                    <Button
+                        android:id="@+id/blue_4points"
+                        style="@style/button_style"
+                        android:background="@color/blueColor"
+                        android:text="@string/points4" />
+                    <Button
+                        android:id="@+id/blue_3points"
+                        style="@style/button_style"
+                        android:background="@color/blueColor"
+                        android:text="@string/points3" />
+                    <Button
+                        android:id="@+id/blue_2points"
+                        style="@style/button_style"
+                        android:background="@color/blueColor"
+                        android:text="@string/points2" />
+                    <Button
+                        android:id="@+id/blue_advantage"
+                        style="@style/button_style"
+                        android:background="@color/blueColor"
+                        android:text="@string/advantage" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_height="match_parent">
+                </View>
+                <LinearLayout
+                    style="@style/Vertical_style">
+                    <TextView
+                        style="@style/corner_title_style"
+                        android:text="@string/red_corner"
+                        android:textColor="@color/redColor"/>
+                    <TextView
+                        android:id="@+id/red_points_view"
+                        style="@style/point_display_style"
+                        android:text="@string/default_score"
+                        android:textColor="@color/redColor"/>
+                    <TextView
+                        android:id="@+id/red_advantages_view"
+                        style="@style/advantage_display_style"
+                        android:text="@string/default_score"
+                        android:textColor="@color/redColor"/>
+                    <Button
+                        android:id="@+id/red_4points"
+                        style="@style/button_style"
+                        android:background="@color/redColor"
+                        android:text="@string/points4" />
+
+                    <Button
+                        android:id="@+id/red_3points"
+                        style="@style/button_style"
+                        android:background="@color/redColor"
+                        android:text="@string/points3" />
+
+                    <Button
+                        android:id="@+id/red_2points"
+                        style="@style/button_style"
+                        android:background="@color/redColor"
+                        android:text="@string/points2" />
+                    <Button
+                        android:id="@+id/red_advantage"
+                        style="@style/button_style"
+                        android:background="@color/redColor"
+                        android:text="@string/advantage" />
+                </LinearLayout>
             </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_height="match_parent">
-            </View>
             <LinearLayout
-                style="@style/Vertical_style">
-                <TextView
-                    style="@style/corner_title_style"
-                    android:text="@string/red_corner"
-                    android:textColor="@color/redColor"/>
-                <TextView
-                    android:id="@+id/red_points_view"
-                    style="@style/point_display_style"
-                    android:text="@string/default_score"
-                    android:textColor="@color/redColor"/>
-                <TextView
-                    android:id="@+id/red_advantages_view"
-                    style="@style/advantage_display_style"
-                    android:text="@string/default_score"
-                    android:textColor="@color/redColor"/>
+                android:layout_marginTop="@dimen/additional_button_top_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
                 <Button
-                    android:id="@+id/red_4points"
-                    style="@style/button_style"
-                    android:background="@color/redColor"
-                    android:text="@string/points4" />
-
+                    android:id="@+id/history_button"
+                    style="@style/additional_button_style"
+                    android:text="@string/history"/>
                 <Button
-                    android:id="@+id/red_3points"
-                    style="@style/button_style"
-                    android:background="@color/redColor"
-                    android:text="@string/points3" />
-
-                <Button
-                    android:id="@+id/red_2points"
-                    style="@style/button_style"
-                    android:background="@color/redColor"
-                    android:text="@string/points2" />
-                <Button
-                    android:id="@+id/red_advantage"
-                    style="@style/button_style"
-                    android:background="@color/redColor"
-                    android:text="@string/advantage" />
+                    android:id="@+id/reset_button"
+                    style="@style/additional_button_style"
+                    android:text="@string/reset"/>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="0"
-            android:layout_marginTop="@dimen/additional_button_top_margin"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <Button
-                android:id="@+id/history_button"
-                style="@style/additional_button_style"
-                android:text="@string/history"/>
-            <Button
-                android:id="@+id/reset_button"
-                style="@style/additional_button_style"
-                android:text="@string/reset"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
