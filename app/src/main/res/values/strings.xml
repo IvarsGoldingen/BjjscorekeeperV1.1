@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bjj score keeper</string>
+    <string name="red_corner">Red</string>
+    <string name="blue_corner">Blue</string>
+    <string name="default_score">0</string>
+    <string name="points4">+4 points</string>
+    <string name="points3">+3 points</string>
+    <string name="points2">+2 points</string>
+    <string name="advantage">advantage</string>
+    <string name="reset">reset</string>
+    <string name="history">history</string>
+</resources>

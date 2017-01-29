@@ -1,0 +1,64 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Vertical_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="corner_title_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/corner_name_text_size</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/corner_name_padding</item>
+    </style>
+    <style name="point_display_style">
+        <item name="android:textSize">@dimen/point_display_text_size</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/point_display_padding</item>
+    </style>
+    <style name="advantage_display_style">
+        <item name="android:textSize">@dimen/advantage_text_size</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">4dp</item>
+    </style>
+    <style name="button_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/button_margin_sides</item>
+        <item name="android:layout_marginRight">@dimen/button_margin_sides</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_top_bottom</item>
+        <item name="android:textColor">@color/regularTextColor</item>
+    </style>
+    <style name="additional_button_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    <style name="history_view_style">
+        <item name="android:textColor">@color/regularTextColor</item>
+        <item name="android:textSize">@dimen/history_text_size</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">10dp</item>
+    </style>
+</resources>

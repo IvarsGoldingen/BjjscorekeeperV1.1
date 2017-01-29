@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/score_text_view"
+        style="@style/history_view_style"
+        tools:text="1"/>
+    <TextView
+        android:id="@+id/corner_scored_text_view"
+        style="@style/history_view_style"
+        tools:text="Red"/>
+    <TextView
+        android:id="@+id/points_scored_text_view"
+        style="@style/history_view_style"
+        tools:text="+4 points"/>
+</LinearLayout>
