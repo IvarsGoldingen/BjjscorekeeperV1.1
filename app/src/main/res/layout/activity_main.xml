@@ -10,14 +10,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <ImageView
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
             android:id="@+id/image"
             android:scaleType="fitCenter"
-            android:src="@drawable/bjj2"
-            android:layout_width="wrap_content"/>
+            android:src="@drawable/bjj2" />
         <LinearLayout
-            android:layout_weight="5"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
