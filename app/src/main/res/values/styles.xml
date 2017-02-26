@@ -16,49 +16,104 @@
     </style>
 
     <style name="corner_title_style">
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">@dimen/corner_name_text_size</item>
-        <item name="android:fontFamily">sans-serif</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">@dimen/corner_name_padding</item>
     </style>
+
     <style name="point_display_style">
+        <item name="android:layout_marginTop">@dimen/time_controls_button_margin_adjustment</item>
+        <item name="android:layout_marginBottom">@dimen/time_controls_button_margin_adjustment
+        </item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/point_display_text_size</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">@dimen/point_display_padding</item>
     </style>
+
     <style name="advantage_display_style">
         <item name="android:textSize">@dimen/advantage_text_size</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">4dp</item>
     </style>
-    <style name="button_style">
-        <item name="android:layout_height">wrap_content</item>
+
+    <style name="points_button_style">
+        <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">@dimen/button_margin_sides</item>
         <item name="android:layout_marginRight">@dimen/button_margin_sides</item>
         <item name="android:layout_marginTop">@dimen/button_margin_top_bottom</item>
         <item name="android:layout_marginBottom">@dimen/button_margin_top_bottom</item>
-        <item name="android:textColor">@color/regularTextColor</item>
+        <item name="android:textColor">@color/points_button_text_color</item>
+        <item name="android:textSize">@dimen/controls_button_text_size</item>
     </style>
-    <style name="additional_button_style">
+
+    <style name="history_view_style">
+        <item name="android:textColor">@color/history_view_text_color</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">@dimen/history_padding</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="timer_digits_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textColor">@color/timer_digits_color</item>
+        <item name="android:textSize">@dimen/timer_digits_size</item>
+        <item name="android:layout_marginTop">@dimen/time_controls_button_margin_adjustment</item>
+        <item name="android:layout_marginBottom">@dimen/time_controls_button_margin_adjustment
+        </item>
+    </style>
+
+    <style name="time_amount_control_buttons_stye">
+        <item name="android:layout_height">@dimen/time_controls_button_height</item>
+        <item name="android:layout_width">@dimen/time_controls_button_width</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">@color/main_screenbackground</item>
+        <item name="android:padding">@dimen/time_controls_button_padding</item>
+        <item name="android:layout_margin">@dimen/time_controls_button_margin</item>>
+    </style>
+
+    <style name="timer_control_buttons_stye">
+        <item name="android:background">@color/control_button_background</item>
+        <item name="android:textColor">@color/control_button_text_background</item>
+        <item name="android:minWidth">@dimen/min_button_width</item>
+        <item name="android:layout_marginLeft">@dimen/button_margin_sides</item>
+        <item name="android:layout_marginRight">@dimen/button_margin_sides</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_top_bottom</item>
+        <item name="android:layout_height">@dimen/all_control_button_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">@dimen/controls_button_padding</item>
+        <item name="android:layout_margin">@dimen/controls_button_margin</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/controls_button_text_size</item>
+    </style>
+
+    <style name="additional_button_style">
+        <item name="android:minWidth">@dimen/min_button_width</item>
+        <item name="android:layout_height">@dimen/all_control_button_height</item>
+        <item name="android:layout_marginLeft">@dimen/button_margin_sides</item>
+        <item name="android:layout_marginRight">@dimen/button_margin_sides</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_top_bottom</item>
+        <item name="android:background">@color/control_button_background</item>
+        <item name="android:textColor">@color/control_button_text_background</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textAllCaps">true</item>
-    </style>
-    <style name="history_view_style">
-        <item name="android:textColor">@color/regularTextColor</item>
-        <item name="android:textSize">@dimen/history_text_size</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:textSize">@dimen/controls_button_text_size</item>
     </style>
 </resources>

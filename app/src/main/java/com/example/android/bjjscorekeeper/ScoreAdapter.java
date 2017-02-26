@@ -1,6 +1,7 @@
 package com.example.android.bjjscorekeeper;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +26,24 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         }
         Score currentScore=getItem(position);
         TextView ScoreNumberView = (TextView) listItemView.findViewById(R.id.score_text_view);
-        ScoreNumberView.setText(String.valueOf(currentScore.GetScoreNumber()));//te buus ints
+        ScoreNumberView.setText(String.valueOf(currentScore.GetScoreNumber()));
 
+        String cornerScored = currentScore.GetCornerScored();
         TextView CornerScoredNumberView = (TextView) listItemView.findViewById(R.id.corner_scored_text_view);
-        CornerScoredNumberView.setText(currentScore.GetCornerScored());
+        CornerScoredNumberView.setText(cornerScored);
 
         TextView PointsScoredView = (TextView) listItemView.findViewById(R.id.points_scored_text_view);
         PointsScoredView.setText(currentScore.GetPointsScored());
 
+        View containerView = (View)listItemView.findViewById(R.id.containerView);
+        String redTeam = getContext().getString(R.string.red_corner);
+        if(cornerScored.equals(redTeam) ){
+            containerView.setBackgroundColor(getContext().getColor(R.color.redColor));
+        }
+        else{
+            containerView.setBackgroundColor(getContext().getColor(R.color.blueColor));
+        }
+        //getResources().getString(R.string.blue_corner)
         return listItemView;
     }
 

@@ -2,128 +2,221 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:fillViewport="true"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/main_screenbackground"
+    android:fillViewport="true">
+
     <LinearLayout
+        android:paddingTop="@dimen/app_padding"
+        android:paddingBottom="@dimen/app_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ImageView
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:id="@+id/image"
-            android:scaleType="fitCenter"
-            android:src="@drawable/bjj2" />
+
         <LinearLayout
-            android:layout_weight="10"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/start_timer"
+                    style="@style/timer_control_buttons_stye"
+                    android:text="@string/start" />
+
+                <Button
+                    android:id="@+id/reset_timer"
+                    style="@style/timer_control_buttons_stye"
+                    android:text="@string/reset" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/minutes_plus"
+                    style="@style/time_amount_control_buttons_stye"
+                    android:src="@drawable/ic_arrow_drop_up_black_24dp" />
+
+                <TextView
+                    android:id="@+id/minutes"
+                    style="@style/timer_digits_style"
+                    android:text="@string/default_minutes"/>
+
+                <ImageButton
+                    android:id="@+id/minutes_minus"
+                    style="@style/time_amount_control_buttons_stye"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/timer_digits_style"
+                android:text="@string/timer_digits_devider" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/seconds_plus"
+                    style="@style/time_amount_control_buttons_stye"
+                    android:src="@drawable/ic_arrow_drop_up_black_24dp" />
+
+                <TextView
+                    android:id="@+id/seconds"
+                    style="@style/timer_digits_style"
+                    android:text="@string/default_seconds"/>
+
+                <ImageButton
+                    android:id="@+id/seconds_minus"
+                    style="@style/time_amount_control_buttons_stye"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/pause_timer"
+                style="@style/timer_control_buttons_stye"
+                android:layout_gravity="center"
+                android:text="@string/pause" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 tools:context="com.example.android.courtcounter.MainActivity">
-                <LinearLayout
-                    style="@style/Vertical_style">
+
+                <LinearLayout style="@style/Vertical_style">
+
                     <TextView
                         style="@style/corner_title_style"
                         android:text="@string/blue_corner"
-                        android:textColor="@color/blueColor"/>
+                        android:textColor="@color/blueColor" />
+
                     <TextView
                         android:id="@+id/blue_points_view"
                         style="@style/point_display_style"
                         android:text="@string/default_score"
-                        android:textColor="@color/blueColor"/>
+                        android:textColor="@color/blueColor" />
+
                     <TextView
                         android:id="@+id/blue_advantages_view"
                         style="@style/advantage_display_style"
                         android:text="@string/default_score"
-                        android:textColor="@color/blueColor"/>
+                        android:textColor="@color/blueColor" />
+
                     <Button
                         android:id="@+id/blue_4points"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/blueColor"
                         android:text="@string/points4" />
+
                     <Button
                         android:id="@+id/blue_3points"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/blueColor"
                         android:text="@string/points3" />
+
                     <Button
                         android:id="@+id/blue_2points"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/blueColor"
                         android:text="@string/points2" />
+
                     <Button
                         android:id="@+id/blue_advantage"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/blueColor"
                         android:text="@string/advantage" />
                 </LinearLayout>
+
                 <View
-                    android:layout_width="1dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_height="match_parent">
+                    android:layout_width="@dimen/seperation_view_thickness"
+                    android:layout_height="match_parent"
+                    android:background="#000000">
                 </View>
-                <LinearLayout
-                    style="@style/Vertical_style">
+
+                <LinearLayout style="@style/Vertical_style">
+
                     <TextView
                         style="@style/corner_title_style"
                         android:text="@string/red_corner"
-                        android:textColor="@color/redColor"/>
+                        android:textColor="@color/redColor" />
+
                     <TextView
                         android:id="@+id/red_points_view"
                         style="@style/point_display_style"
                         android:text="@string/default_score"
-                        android:textColor="@color/redColor"/>
+                        android:textColor="@color/redColor" />
+
                     <TextView
                         android:id="@+id/red_advantages_view"
                         style="@style/advantage_display_style"
                         android:text="@string/default_score"
-                        android:textColor="@color/redColor"/>
+                        android:textColor="@color/redColor" />
+
                     <Button
                         android:id="@+id/red_4points"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/redColor"
                         android:text="@string/points4" />
 
                     <Button
                         android:id="@+id/red_3points"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/redColor"
                         android:text="@string/points3" />
 
                     <Button
                         android:id="@+id/red_2points"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/redColor"
                         android:text="@string/points2" />
+
                     <Button
                         android:id="@+id/red_advantage"
-                        style="@style/button_style"
+                        style="@style/points_button_style"
                         android:background="@color/redColor"
                         android:text="@string/advantage" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="@dimen/additional_button_top_margin"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_marginTop="@dimen/additional_button_top_margin"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/history_button"
                     style="@style/additional_button_style"
-                    android:text="@string/history"/>
+                    android:text="@string/history" />
+
                 <Button
                     android:id="@+id/reset_button"
                     style="@style/additional_button_style"
-                    android:text="@string/reset"/>
+                    android:text="@string/reset" />
+
+                <Button
+                    android:id="@+id/back_button"
+                    style="@style/additional_button_style"
+                    android:text="@string/back" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

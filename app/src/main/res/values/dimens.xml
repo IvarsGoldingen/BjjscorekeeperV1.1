@@ -5,11 +5,24 @@
     <dimen name="corner_name_text_size">28sp</dimen>
     <dimen name="advantage_text_size">28sp</dimen>
     <dimen name="corner_name_padding">4dp</dimen>
-    <dimen name="point_display_text_size">56sp</dimen>
-    <dimen name="point_display_padding">4dp</dimen>
+    <dimen name="point_display_text_size">72sp</dimen>
+    <dimen name="point_display_padding">0dp</dimen>
     <dimen name="button_margin_top_bottom">5dp</dimen>
-    <dimen name="button_margin_sides">20dp</dimen>
-    <dimen name="history_text_size">20sp</dimen>
+    <dimen name="button_margin_sides">15dp</dimen>
     <dimen name="additional_button_top_margin">20dp</dimen>
-
+    <dimen name="seperation_view_thickness">2dp</dimen>
+    <dimen name="controls_button_padding">0dp</dimen>
+    <dimen name="controls_button_margin">5dp</dimen>
+    <dimen name="controls_button_text_size">14sp</dimen>
+    <dimen name="history_padding">10dp</dimen>
+    <dimen name="all_control_button_height">40dp</dimen>
+    <dimen name="timer_digits_size">70sp</dimen>
+    <dimen name="time_controls_button_padding">0dp</dimen>
+    <dimen name="time_controls_button_margin">0dp</dimen>
+    <dimen name="time_controls_button_width">80dp</dimen>
+    <dimen name="time_controls_button_height">30dp</dimen>
+    <dimen name="time_controls_button_margin_adjustment">-10dp</dimen>
+    <dimen name="points_margin_adjustment">-15dp</dimen>
+    <dimen name="min_button_width">70dp</dimen>
+    <dimen name="app_padding">15dp</dimen>
 </resources>
