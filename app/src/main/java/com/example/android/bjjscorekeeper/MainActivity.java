@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -20,17 +21,16 @@ import static com.example.android.bjjscorekeeper.R.id.minutes;
 import static com.example.android.bjjscorekeeper.R.id.red_advantage;
 
 public class MainActivity extends AppCompatActivity {
+    static int CTDWN_INTERVAL = 100;
     int redPoints=0;
     int redAdvantages=0;
     int bluePoints=0;
     int blueAdvantages=0;
     int nextScoreNumber =1;
     ArrayList<Score> scores = new ArrayList<Score>();
-
     CountDownTimer cdTimer = null;
     Boolean timerPaused = false;
     long milisecondsLeft = 0;
-    static int CTDWN_INTERVAL = 100;
     TextView minutesField;
     TextView secondsField;
     Button pauseButton;
@@ -41,13 +41,6 @@ public class MainActivity extends AppCompatActivity {
     NumberFormat twoDigitFormat = new DecimalFormat("00");
 
     MediaPlayer myMediaPlayer;
-    MediaPlayer.OnCompletionListener myOnCompletionListener = new MediaPlayer.OnCompletionListener(){
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            releaseMediaPlayer();
-        }
-    };
-
     private AudioManager myAudioManager;
     private AudioManager.OnAudioFocusChangeListener myOnAudioFocusListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -67,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             };
+    MediaPlayer.OnCompletionListener myOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {       //restore value
@@ -218,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
                 long minutes = Integer.valueOf((minutesField.getText().toString()));
                 long seconds = Integer.valueOf((secondsField.getText().toString()));
-                if(!timerPaused) {
+                if (!timerPaused && cdTimer == null) {
                     //save the "last set" variables only on a new timer launch
                     lastSetMinutes = (int) minutes;
                     lastSetSeconds = (int) seconds;
@@ -439,7 +438,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void takeBackLastMove(){
-        if(nextScoreNumber >1) {//Check if there have been moves
+        if (nextScoreNumber > 1) {
+            //Check if there have been moves
             Score lastScore = scores.get(nextScoreNumber -2);//-2 because array start with 0
             if (lastScore.GetCornerScored()==getResources().getString(R.string.blue_corner)) {//wich corner scored
                 if (lastScore.GetPointsScored()==getResources().getString(R.string.points4)) {
@@ -476,6 +476,9 @@ public class MainActivity extends AppCompatActivity {
                 refreshPointsRed();
             }
             nextScoreNumber--;
+        } else {
+            Toast noMovesToReturnToast = Toast.makeText(this, getResources().getString(R.string.no_moves), Toast.LENGTH_SHORT);
+            noMovesToReturnToast.show();
         }
     }
 }

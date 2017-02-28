@@ -12,7 +12,7 @@
     <color name="control_buttons_text_color">#000000</color>
     <color name="timer_digits_color">#000000</color>
     <color name="points_button_text_color">#ffffff</color>
-    <color name="control_button_background">#000000</color>
+    <color name="control_button_background">#bcbcbc</color>
     <color name="control_button_text_background">#ffffff</color>
     <color name="main_screenbackground">#ffffff</color>
 </resources>

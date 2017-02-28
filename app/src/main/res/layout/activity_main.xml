@@ -8,11 +8,11 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:paddingTop="@dimen/app_padding"
-        android:paddingBottom="@dimen/app_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/app_padding"
+        android:paddingTop="@dimen/app_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,15 +27,21 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/start_timer"
-                    style="@style/timer_control_buttons_stye"
-                    android:text="@string/start" />
+                <FrameLayout style="@style/frame_timer_control_buttons_stye">
 
-                <Button
-                    android:id="@+id/reset_timer"
-                    style="@style/timer_control_buttons_stye"
-                    android:text="@string/reset" />
+                    <Button
+                        android:id="@+id/start_timer"
+                        style="@style/control_buttons_stye"
+                        android:text="@string/start" />
+                </FrameLayout>
+
+                <FrameLayout style="@style/frame_timer_control_buttons_stye">
+
+                    <Button
+                        android:id="@+id/reset_timer"
+                        style="@style/control_buttons_stye"
+                        android:text="@string/reset" />
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -83,11 +89,14 @@
                     android:src="@drawable/ic_arrow_drop_down_black_24dp" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/pause_timer"
-                style="@style/timer_control_buttons_stye"
-                android:layout_gravity="center"
-                android:text="@string/pause" />
+            <FrameLayout style="@style/frame_timer_control_buttons_stye">
+
+                <Button
+                    android:id="@+id/pause_timer"
+                    style="@style/control_buttons_stye"
+                    android:layout_gravity="center"
+                    android:text="@string/pause" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -203,20 +212,29 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/history_button"
-                    style="@style/additional_button_style"
-                    android:text="@string/history" />
+                <FrameLayout style="@style/frame_timer_control_buttons_stye">
 
-                <Button
-                    android:id="@+id/reset_button"
-                    style="@style/additional_button_style"
-                    android:text="@string/reset" />
+                    <Button
+                        android:id="@+id/history_button"
+                        style="@style/control_buttons_stye"
+                        android:text="@string/history" />
+                </FrameLayout>
 
-                <Button
-                    android:id="@+id/back_button"
-                    style="@style/additional_button_style"
-                    android:text="@string/back" />
+                <FrameLayout style="@style/frame_timer_control_buttons_stye">
+
+                    <Button
+                        android:id="@+id/reset_button"
+                        style="@style/control_buttons_stye"
+                        android:text="@string/reset" />
+                </FrameLayout>
+
+                <FrameLayout style="@style/frame_timer_control_buttons_stye">
+
+                    <Button
+                        android:id="@+id/back_button"
+                        style="@style/control_buttons_stye"
+                        android:text="@string/back" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
