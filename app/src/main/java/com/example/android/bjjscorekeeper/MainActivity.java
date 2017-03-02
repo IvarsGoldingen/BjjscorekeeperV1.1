@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     long milisecondsLeft = 0;
     TextView minutesField;
     TextView secondsField;
-    Button pauseButton;
+    Button startPauseResumeButton;
 
     int lastSetMinutes=5;
     int lastSetSeconds=0;
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState.getBoolean("timerWasRunnin")){
             //if timer was running, resume
             startTimer(milisecondsLeft);
+            startPauseResumeButton.setText(R.string.pause);
         }
         else{
             //else timer was not running at all or paused
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             secondsField.setText(twoDigitFormat.format(savedInstanceState.getInt("timerSecondsShowing")));
             if(savedInstanceState.getBoolean("timerWasPaused")){
                 //if timer was paused set the correct button name
-                pauseButton.setText("resume");
+                startPauseResumeButton.setText(R.string.resume);
                 timerPaused=true;
             }
 
@@ -112,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt("blueAdvantagesBackup",blueAdvantages);
 
         //save timer
+        if (cdTimer != null) {
+            cdTimer.cancel();//deelte the timer or else there will be 2 timers running when the app continues
+        }
         outState.putInt("lastSetMinutes",lastSetMinutes);
         outState.putInt("lastSetSeconds",lastSetSeconds);
         outState.putBoolean("timerWasPaused",timerPaused);
@@ -210,30 +214,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button startButton = (Button) findViewById(R.id.start_timer);
-        startButton.setOnClickListener(new View.OnClickListener() {
+        startPauseResumeButton = (Button) findViewById(R.id.start_pause_resume_timer);
+        startPauseResumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //test code to use ony 1 button
+                //if there is no timer running and no timer paused we need to start a new timer
+                if (cdTimer == null && !timerPaused) {
+                    long minutes = Integer.valueOf((minutesField.getText().toString()));
+                    long seconds = Integer.valueOf((secondsField.getText().toString()));
+                    //check if set time is more than a second
+                    long timeInMillis = (minutes * 60 * 1000) + (seconds * 1000);
+                    if (timeInMillis > 0) {
+                        //save the "last set" variables only on a new timer launch
+                        lastSetMinutes = (int) minutes;
+                        lastSetSeconds = (int) seconds;
+                        startTimer(timeInMillis);
+                        startPauseResumeButton.setText(R.string.pause);
+                    } else {
+                        //show a toast message that we need a valid time value
+                        Toast myToast = Toast.makeText(MainActivity.this, R.string.no_time_error, Toast.LENGTH_SHORT);
+                        myToast.show();
+                    }
 
-                long minutes = Integer.valueOf((minutesField.getText().toString()));
-                long seconds = Integer.valueOf((secondsField.getText().toString()));
-                if (!timerPaused && cdTimer == null) {
-                    //save the "last set" variables only on a new timer launch
-                    lastSetMinutes = (int) minutes;
-                    lastSetSeconds = (int) seconds;
                 }
-                startTimer((minutes*60*1000)+(seconds*1000));
+                //if there is a paused timer it need to be resumed
+                else if (timerPaused) {
+                    resumeTimer();
+                }
+                //the last option is that is left is that the timer has to be paused
+                else {
+                    pauseTimer();
+                }
+
             }
         });
 
-        pauseButton = (Button) findViewById(R.id.pause_timer);
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pauseTimerResume();
-
-            }
-        });
 
         Button bluePoints4 = (Button)findViewById(R.id.blue_4points);
         bluePoints4.setOnClickListener(new View.OnClickListener() {
@@ -371,11 +387,11 @@ public class MainActivity extends AppCompatActivity {
         minutesField.setText(twoDigitFormat.format(lastSetMinutes));
         secondsField.setText(twoDigitFormat.format(lastSetSeconds));
         timerPaused=false;
-        pauseButton.setText("Pause");
+        startPauseResumeButton.setText(R.string.start);
     }
 
     private void startTimer(long timerTime){
-        if(cdTimer==null&&!timerPaused) {
+        if (cdTimer == null) {
             cdTimer = new CountDownTimer(timerTime, CTDWN_INTERVAL) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -388,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onFinish() {
                     minutesField.setText("00");
                     secondsField.setText("00");
+                    startPauseResumeButton.setText(R.string.start);
                     cdTimer=null;
 
                     //Sound effect
@@ -404,25 +421,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void pauseTimerResume(){
-        //if timer was not paused we do it now
-        if(timerPaused==false)
-        {
-            if(cdTimer!=null){//check if there hass been soething before`
-                pauseButton.setText("Resume");
-                timerPaused=true;
-                cdTimer.cancel();
-                cdTimer=null;
-            }
+    private void pauseTimer() {
+        if (cdTimer != null) {//check if there hass been soething before`
+            startPauseResumeButton.setText(R.string.resume);
+            timerPaused = true;
+            cdTimer.cancel();
+            cdTimer = null;
         }
-        //else we resume
-        else{
-            pauseButton.setText("Pause");
-            timerPaused=false;
-            startTimer(milisecondsLeft);
-        }
-
     }
+
+    private void resumeTimer() {
+        startPauseResumeButton.setText(R.string.pause);
+        timerPaused = false;
+        startTimer(milisecondsLeft);
+    }
+
     private void releaseMediaPlayer() {
         // If the media player is not null, then it may be currently playing a sound.
         if (myMediaPlayer != null) {
