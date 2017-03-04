@@ -21,4 +21,5 @@
     <string name="timer_control">Timer control</string>
     <string name="score_control">Score control</string>
     <string name="no_time_error">Set time to at least 1 second</string>
+    <string name="app_title">BJJ Scoreboard</string>
 </resources>

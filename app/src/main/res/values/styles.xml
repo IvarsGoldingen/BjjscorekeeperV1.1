@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -114,5 +115,26 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">@dimen/controls_heading_text_size</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="app_title_style">
+        <item name="android:background">@color/main_screenbackground</item>
+        <item name="android:textColor">@color/timer_digits_color</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/app_title_name_size</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="app_title_style_landscape">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:background">@color/main_screenbackground</item>
+        <item name="android:textColor">@color/timer_digits_color</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/app_title_name_size_landscape</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

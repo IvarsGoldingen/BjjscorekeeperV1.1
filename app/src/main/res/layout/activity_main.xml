@@ -14,6 +14,9 @@
         android:paddingBottom="@dimen/app_padding"
         android:paddingTop="@dimen/app_padding">
 
+        <TextView
+            style="@style/app_title_style"
+            android:text="@string/app_title" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,11 +91,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:context="com.example.android.courtcounter.MainActivity">
-
+                android:orientation="horizontal">
                 <LinearLayout style="@style/Vertical_style">
-
                     <TextView
                         style="@style/corner_title_style"
                         android:text="@string/blue_corner"
@@ -138,8 +138,7 @@
                 <View
                     android:layout_width="@dimen/seperation_view_thickness"
                     android:layout_height="match_parent"
-                    android:background="#000000">
-                </View>
+                    android:background="#000000"></View>
 
                 <LinearLayout style="@style/Vertical_style">
 
@@ -186,10 +185,13 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/all_control_button_height"
+                android:src="@drawable/blackbelt" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/additional_button_top_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
