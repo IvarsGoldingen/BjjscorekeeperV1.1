@@ -17,6 +17,12 @@
         <TextView
             style="@style/app_title_style"
             android:text="@string/app_title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/all_control_button_height"
+            android:layout_marginBottom="@dimen/portrait_category_margin_vertcal"
+            android:src="@drawable/blackbelt" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,11 +100,6 @@
                 android:orientation="horizontal">
                 <LinearLayout style="@style/Vertical_style">
                     <TextView
-                        style="@style/corner_title_style"
-                        android:text="@string/blue_corner"
-                        android:textColor="@color/blueColor" />
-
-                    <TextView
                         android:id="@+id/blue_points_view"
                         style="@style/point_display_style"
                         android:text="@string/default_score"
@@ -143,11 +144,6 @@
                 <LinearLayout style="@style/Vertical_style">
 
                     <TextView
-                        style="@style/corner_title_style"
-                        android:text="@string/red_corner"
-                        android:textColor="@color/redColor" />
-
-                    <TextView
                         android:id="@+id/red_points_view"
                         style="@style/point_display_style"
                         android:text="@string/default_score"
@@ -185,13 +181,11 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/all_control_button_height"
-                android:src="@drawable/blackbelt" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/portrait_category_margin_vertcal"
                 android:gravity="center"
                 android:orientation="horizontal">
 

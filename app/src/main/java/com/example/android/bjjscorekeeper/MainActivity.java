@@ -1,12 +1,16 @@
 package com.example.android.bjjscorekeeper;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,31 +20,33 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static com.example.android.bjjscorekeeper.R.id.minutes;
-import static com.example.android.bjjscorekeeper.R.id.red_advantage;
+import static com.example.android.bjjscorekeeper.R.id.seconds;
 
 public class MainActivity extends AppCompatActivity {
-    static int CTDWN_INTERVAL = 100;
-    int redPoints=0;
-    int redAdvantages=0;
-    int bluePoints=0;
-    int blueAdvantages=0;
-    int nextScoreNumber =1;
-    ArrayList<Score> scores = new ArrayList<Score>();
-    CountDownTimer cdTimer = null;
-    Boolean timerPaused = false;
-    long milisecondsLeft = 0;
+
+    private static int CTDWN_INTERVAL = 200;
+    //values for the preferences implementation
+    MyPreferensesClass myPreferences;
     TextView minutesField;
     TextView secondsField;
     Button startPauseResumeButton;
-
     int lastSetMinutes=5;
     int lastSetSeconds=0;
-
     NumberFormat twoDigitFormat = new DecimalFormat("00");
-
     MediaPlayer myMediaPlayer;
+    private TimerState myTimerState = TimerState.STOPPED;
+    private int redPoints = 0;
+    private int redAdvantages = 0;
+    private int bluePoints = 0;
+    private int blueAdvantages = 0;
+    private int nextScoreNumber = 1;
+    private ArrayList<Score> scores = new ArrayList<Score>();
+    private CountDownTimer cdTimer = null;
+    private long milisecondsLeft = 0;
+    private long lastSetTimeMillis;
     private AudioManager myAudioManager;
     private AudioManager.OnAudioFocusChangeListener myOnAudioFocusListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -70,41 +76,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {       //restore value
 
+        super.onRestoreInstanceState(savedInstanceState);
+
         //restore the scores
         redPoints = savedInstanceState.getInt("redPointsBackup");
         redAdvantages = savedInstanceState.getInt("redAdvantagesBackup");
         bluePoints = savedInstanceState.getInt("bluePointsBackup");
         blueAdvantages = savedInstanceState.getInt("blueAdvantagesBackup");
-        super.onRestoreInstanceState(savedInstanceState);
-        refreshAll();
 
-        //restore time
+        refreshUIPoints();
+
+        //restore last set new time
         lastSetMinutes = savedInstanceState.getInt("lastSetMinutes");
         lastSetSeconds = savedInstanceState.getInt("lastSetSeconds");
-        milisecondsLeft=savedInstanceState.getLong("milisecondsLeft");
-        if(savedInstanceState.getBoolean("timerWasRunnin")){
-            //if timer was running, resume
-            startTimer(milisecondsLeft);
-            startPauseResumeButton.setText(R.string.pause);
-        }
-        else{
-            //else timer was not running at all or paused
-            minutesField.setText(twoDigitFormat.format(savedInstanceState.getInt("timerMinutesShowing")));
-            secondsField.setText(twoDigitFormat.format(savedInstanceState.getInt("timerSecondsShowing")));
-            if(savedInstanceState.getBoolean("timerWasPaused")){
-                //if timer was paused set the correct button name
-                startPauseResumeButton.setText(R.string.resume);
-                timerPaused=true;
-            }
 
-        }
-
-        //restore array
+        //restore history array
         scores = savedInstanceState.getParcelableArrayList("history");
+
+        //resstore timer state
+        myTimerState = (TimerState) savedInstanceState.getSerializable("timerState");
+        updateStartPauseResumeButtonText();
+        if (myTimerState == TimerState.PAUSED) {
+            milisecondsLeft = savedInstanceState.getLong("pausedTimeLeft");
+            Log.v("P1 restored millis", String.valueOf(milisecondsLeft));
+        } else if (myTimerState == TimerState.STOPPED) {
+            minutesField.setText(twoDigitFormat.format(savedInstanceState.getInt("minutesUI")));
+            secondsField.setText(twoDigitFormat.format(savedInstanceState.getInt("secondsUI")));
+        }
+
+        //restore last set new or continued time
+        lastSetTimeMillis = savedInstanceState.getLong("lastSetTimeMillis");
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {                    // save varible to temporary varible
+    protected void onSaveInstanceState(Bundle outState) {
+        // save variables to temporary varible
         //save scores
         super.onSaveInstanceState(outState);
         outState.putInt("redPointsBackup",redPoints);
@@ -112,35 +118,67 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt("bluePointsBackup",bluePoints);
         outState.putInt("blueAdvantagesBackup",blueAdvantages);
 
-        //save timer
-        if (cdTimer != null) {
-            cdTimer.cancel();//deelte the timer or else there will be 2 timers running when the app continues
-        }
-        outState.putInt("lastSetMinutes",lastSetMinutes);
-        outState.putInt("lastSetSeconds",lastSetSeconds);
-        outState.putBoolean("timerWasPaused",timerPaused);
-        if (cdTimer==null) {//no timer was running
-            outState.putBoolean("timerWasRunnin",false);
-        }
-        else{
-            outState.putBoolean("timerWasRunnin",true);
-        }
-        outState.putLong("milisecondsLeft",milisecondsLeft);
-        outState.putInt("timerMinutesShowing",Integer.valueOf((minutesField.getText().toString())));
-        outState.putInt("timerSecondsShowing",Integer.valueOf((secondsField.getText().toString())));
+        //save last set new time
+        outState.putInt("lastSetMinutes", lastSetMinutes);
+        outState.putInt("lastSetSeconds", lastSetSeconds);
+
+        //save last set new or resumed time
+        outState.putLong("lastSetTimeMillis", lastSetTimeMillis);
 
         //save history
         outState.putParcelableArrayList("history", scores);
+
+        //save timer state
+        outState.putSerializable("timerState", myTimerState);
+        if (myTimerState == TimerState.PAUSED) {
+            //if timer was paused, the time value has to be saved here
+            outState.putLong("pausedTimeLeft", milisecondsLeft);
+            Log.v("P1 saved millis", String.valueOf(milisecondsLeft));
+        } else if (myTimerState == TimerState.STOPPED) {
+            //if timer was stopped, save the current UI time settings
+            outState.putInt("minutesUI", Integer.valueOf((minutesField.getText().toString())));
+            outState.putInt("secondsUI", Integer.valueOf((secondsField.getText().toString())));
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //of timer was running
+        if (cdTimer != null) {
+            cdTimer.cancel();//deelte the timer or else there will be 2 timers running when the app continues
+            cdTimer = null;
+            //set an alarm, so the user stil knows when the time ended
+            setAlarm();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v("P1 onResume()  ", String.valueOf(myTimerState));
+        if (myTimerState == TimerState.RUNNING) {
+            initTimerAfterAppPause();
+        } else if (myTimerState == TimerState.PAUSED) {
+            //if timer was paused we update the UI with the correct time
+            updateTimeUI(milisecondsLeft);
+        }
+
+        //cancel the notification alarm because the app is open
+        removeAlarm();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //creating a preferences object
+        myPreferences = new MyPreferensesClass(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         myAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         minutesField = (TextView) findViewById(minutes);
-        secondsField = (TextView)findViewById(R.id.seconds);
+        secondsField = (TextView) findViewById(seconds);
 
         Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
         plusMinutes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cdTimer==null&&!timerPaused){//allow time changes only if no timer is running and not paused
-                    long minutes = Integer.valueOf((minutesField.getText().toString()));
+                if (myTimerState == TimerState.STOPPED) {//allow time changes only if no timer is stopped
+                    int minutes = Integer.valueOf((minutesField.getText().toString()));
                     if (minutes>=99){
                         minutes=-1;
                     }
@@ -168,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
         minusMinutes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cdTimer==null&&!timerPaused){//allow time changes only if no timer is running and not paused
-                    long minutes = Integer.valueOf((minutesField.getText().toString()));
+                if (myTimerState == TimerState.STOPPED) {//allow time changes only if no timer is stopped
+                    int minutes = Integer.valueOf((minutesField.getText().toString()));
                     if (minutes<=0){
                         minutes=100;
                     }
@@ -182,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
         plusSeconds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cdTimer==null&&!timerPaused){//allow time changes only if no timer is running and not paused
-                    long seconds = Integer.valueOf((secondsField.getText().toString()));
+                if (myTimerState == TimerState.STOPPED) {//allow time changes only if no timer is stopped
+                    int seconds = Integer.valueOf((secondsField.getText().toString()));
                     if (seconds>=59){
                         seconds=-1;
                     }
@@ -196,8 +234,8 @@ public class MainActivity extends AppCompatActivity {
         minusSeconds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cdTimer==null&&!timerPaused){//allow time changes only if no timer is running and not paused
-                    long seconds = Integer.valueOf((secondsField.getText().toString()));
+                if (myTimerState == TimerState.STOPPED) {//allow time changes only if no timer is stopped
+                    int seconds = Integer.valueOf((secondsField.getText().toString()));
                     if (seconds<=0){
                         seconds=60;
                     }
@@ -211,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 resetTimer();
+                updateStartPauseResumeButtonText();
             }
         });
 
@@ -218,35 +257,38 @@ public class MainActivity extends AppCompatActivity {
         startPauseResumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //test code to use ony 1 button
                 //if there is no timer running and no timer paused we need to start a new timer
-                if (cdTimer == null && !timerPaused) {
-                    long minutes = Integer.valueOf((minutesField.getText().toString()));
-                    long seconds = Integer.valueOf((secondsField.getText().toString()));
-                    //check if set time is more than a second
-                    long timeInMillis = (minutes * 60 * 1000) + (seconds * 1000);
-                    if (timeInMillis > 0) {
-                        //save the "last set" variables only on a new timer launch
-                        lastSetMinutes = (int) minutes;
-                        lastSetSeconds = (int) seconds;
-                        startTimer(timeInMillis);
-                        startPauseResumeButton.setText(R.string.pause);
-                    } else {
-                        //show a toast message that we need a valid time value
-                        Toast myToast = Toast.makeText(MainActivity.this, R.string.no_time_error, Toast.LENGTH_SHORT);
-                        myToast.show();
-                    }
+                if (myTimerState == TimerState.STOPPED) {
+                    if (cdTimer == null) {
+                        //The start time is saved in preferences
+                        myPreferences.setStartedTime(getNow());
 
+                        long minutes = Integer.valueOf((minutesField.getText().toString()));
+                        long seconds = Integer.valueOf((secondsField.getText().toString()));
+                        //check if set time is more than a second
+                        long timeInMillis = (minutes * 60 * 1000) + (seconds * 1000);
+                        if (timeInMillis > 0) {
+                            //save the "last set" variables only on a new timer launch
+                            lastSetMinutes = (int) minutes;
+                            lastSetSeconds = (int) seconds;
+                            lastSetTimeMillis = timeInMillis;
+                            startTimer(timeInMillis);
+                        } else {
+                            //show a toast message that we need a valid time value
+                            Toast myToast = Toast.makeText(MainActivity.this, R.string.no_time_error, Toast.LENGTH_SHORT);
+                            myToast.show();
+                        }
+                    }
                 }
                 //if there is a paused timer it need to be resumed
-                else if (timerPaused) {
+                else if (myTimerState == TimerState.PAUSED) {
                     resumeTimer();
                 }
                 //the last option is that is left is that the timer has to be paused
                 else {
                     pauseTimer();
                 }
-
+                updateStartPauseResumeButtonText();
             }
         });
 
@@ -341,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
                 redAdvantages=0;
                 nextScoreNumber =1;
                 scores.clear();
-                refreshAll();
+                refreshUIPoints();
             }
         });
 
@@ -356,24 +398,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    private void refreshAll(){
+
+    private void refreshUIPoints() {
         refreshPointsRed();
         refreshPointsBlue();
         refreshAdvantagesBlue();
         refreshAdvantagesRed();
     }
+
     private void refreshPointsBlue(){
         TextView bluePointsView = (TextView)findViewById(R.id.blue_points_view);
         bluePointsView.setText(String.valueOf(bluePoints));
     }
+
     private void refreshPointsRed(){
         TextView redPointsView = (TextView)findViewById(R.id.red_points_view);
         redPointsView.setText(String.valueOf(redPoints));
     }
+
     private void refreshAdvantagesBlue(){
         TextView blueAdvantagesView = (TextView)findViewById(R.id.blue_advantages_view);
         blueAdvantagesView.setText(String.valueOf(blueAdvantages));
     }
+
     private void refreshAdvantagesRed(){
         TextView redAdvantagesView = (TextView)findViewById(R.id.red_advantages_view);
         redAdvantagesView.setText(String.valueOf(redAdvantages));
@@ -386,53 +433,44 @@ public class MainActivity extends AppCompatActivity {
         }
         minutesField.setText(twoDigitFormat.format(lastSetMinutes));
         secondsField.setText(twoDigitFormat.format(lastSetSeconds));
-        timerPaused=false;
-        startPauseResumeButton.setText(R.string.start);
+        myTimerState = TimerState.STOPPED;
     }
 
     private void startTimer(long timerTime){
+
         if (cdTimer == null) {
             cdTimer = new CountDownTimer(timerTime, CTDWN_INTERVAL) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    minutesField.setText(twoDigitFormat.format(millisUntilFinished / 1000/60));
-                    secondsField.setText(twoDigitFormat.format((millisUntilFinished / 1000)%60));
-                    milisecondsLeft = millisUntilFinished;
+                    updateTimeUI(millisUntilFinished);
+                    //minutesField.setText(twoDigitFormat.format(millisUntilFinished / 1000/60));
+                    //secondsField.setText(twoDigitFormat.format((millisUntilFinished / 1000)%60));
+                    //milisecondsLeft = millisUntilFinished;
                 }
 
                 @Override
                 public void onFinish() {
-                    minutesField.setText("00");
-                    secondsField.setText("00");
-                    startPauseResumeButton.setText(R.string.start);
-                    cdTimer=null;
-
-                    //Sound effect
-                    releaseMediaPlayer();
-                    int result = myAudioManager.requestAudioFocus(myOnAudioFocusListener,
-                            AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-                    if (result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
-                        myMediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.end);
-                        myMediaPlayer.start();
-                        myMediaPlayer.setOnCompletionListener(myOnCompletionListener);
-                    }
+                    onTimerFinish();
                 }
             }.start();
+            myTimerState = TimerState.RUNNING;
         }
     }
 
     private void pauseTimer() {
-        if (cdTimer != null) {//check if there hass been soething before`
-            startPauseResumeButton.setText(R.string.resume);
-            timerPaused = true;
+        if (cdTimer != null) {//check if there has been something before`
             cdTimer.cancel();
             cdTimer = null;
+            //should be more accurate than using the value from onTick();
+            milisecondsLeft = calculateTimeToGo();
+            Log.v("P1 pauseT()  ", String.valueOf(milisecondsLeft));
+            myTimerState = TimerState.PAUSED;
         }
     }
 
     private void resumeTimer() {
-        startPauseResumeButton.setText(R.string.pause);
-        timerPaused = false;
+        myPreferences.setStartedTime(getNow());
+        lastSetTimeMillis = milisecondsLeft;
         startTimer(milisecondsLeft);
     }
 
@@ -493,5 +531,111 @@ public class MainActivity extends AppCompatActivity {
             Toast noMovesToReturnToast = Toast.makeText(this, getResources().getString(R.string.no_moves), Toast.LENGTH_SHORT);
             noMovesToReturnToast.show();
         }
+    }
+
+    private long getNow() {
+        //get a callendar object to get current time
+        Calendar rightNow = Calendar.getInstance();
+        //return the current time in seconds
+        return rightNow.getTimeInMillis();
+    }
+
+    private void setAlarm() {
+        //the wake up time is calculated by adding the set running time to the start time, which
+        //was saved in preferences
+        long wakeUpTime = (myPreferences.getStartedTime() + lastSetTimeMillis);
+        //getting the AlarmService instance wich allows the end of timer notification be used
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //the intent opens the TimerExpiredClass wich sets the notification
+        Intent intent = new Intent(this, TimerExpiredReceiver.class);
+        //Setting up the pendingIntent wich will be launched when the time ends
+        //FLAG_CANCEL_CURRENT does not allow creating duplicate pendingIntents
+        PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //set the alarm with the time and pending intent
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            am.setAlarmClock(new AlarmManager.AlarmClockInfo(wakeUpTime, sender), sender);
+        } else {
+            //Beginning in API 19, the trigger time passed to this method is treated as inexact (for set)
+            //maybe that is why setAlarmClockIsUsedBefore
+            am.set(AlarmManager.RTC_WAKEUP, wakeUpTime, sender);
+        }
+
+    }
+
+    private void removeAlarm() {
+        //using the same steps like the set alarm, but instead we cance at the end
+        //will be used when we enter the app and the timer is running
+        Intent intent = new Intent(this, TimerExpiredReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.cancel(sender);
+    }
+
+    private void initTimerAfterAppPause() {
+        //get the start time of the timer from preferences
+        long startTime = myPreferences.getStartedTime();
+        Log.v("P2 starttime()  ", String.valueOf(startTime));
+        //check if there has been a timer, we set the default value to be 0  in MyPreferencesClass
+        if (startTime > 0) {
+            //calculate the time left on the timer
+            long timeToGo = calculateTimeToGo();
+            Log.v("P2 timetogo()  ", String.valueOf(timeToGo));
+            if (timeToGo <= 0) {
+                //timer has already expired
+                onTimerFinish();
+            } else {
+                startTimer(timeToGo);
+            }
+        }
+
+    }
+
+    private void onTimerFinish() {
+        //set the value in preferences to zero
+        myPreferences.setStartedTime(0);
+
+        minutesField.setText("00");
+        secondsField.setText("00");
+        startPauseResumeButton.setText(R.string.start);
+        cdTimer = null;
+        myTimerState = TimerState.STOPPED;
+
+
+        //Sound effect
+        releaseMediaPlayer();
+        int result = myAudioManager.requestAudioFocus(myOnAudioFocusListener,
+                AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            myMediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.end);
+            myMediaPlayer.start();
+            myMediaPlayer.setOnCompletionListener(myOnCompletionListener);
+        }
+    }
+
+    private void updateStartPauseResumeButtonText() {
+        if (myTimerState == TimerState.RUNNING) {
+            startPauseResumeButton.setText(R.string.pause);
+        } else if (myTimerState == TimerState.PAUSED) {
+            startPauseResumeButton.setText(R.string.resume);
+        } else {
+            startPauseResumeButton.setText(R.string.start);
+        }
+    }
+
+    private long calculateTimeToGo() {//calculate time to go on a running timer
+        long startTime = myPreferences.getStartedTime();
+        return (lastSetTimeMillis - (getNow() - startTime));
+    }
+
+    private void updateTimeUI(long time) {
+        minutesField.setText(twoDigitFormat.format(time / 1000 / 60));
+        secondsField.setText(twoDigitFormat.format((time / 1000) % 60));
+    }
+
+    private enum TimerState {
+        RUNNING,
+        PAUSED,
+        STOPPED
     }
 }

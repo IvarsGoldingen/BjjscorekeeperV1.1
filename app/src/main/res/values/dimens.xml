@@ -31,4 +31,5 @@
     <dimen name="min_button_width">70dp</dimen>
     <dimen name="app_padding">8dp</dimen>
     <dimen name="controls_heading_text_size">18sp</dimen>
+    <dimen name="portrait_category_margin_vertcal">10dp</dimen>
 </resources>
