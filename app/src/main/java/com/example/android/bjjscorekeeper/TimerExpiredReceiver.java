@@ -31,9 +31,9 @@ public class TimerExpiredReceiver extends BroadcastReceiver {
         NotificationCompat.Builder b = new NotificationCompat.Builder(context);
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         b.setSound(notification)
-                .setContentTitle("Timer finished")//the notification title
+                .setContentTitle(context.getString(R.string.round_over_notification_message))//the notification title
                 .setAutoCancel(true)//the notification gets cancelled when it is clicked on
-                .setContentText("Timer finished")//second row of notification
+                //.setContentText("Timer finished")//second row of notification
                 .setSmallIcon(android.R.drawable.ic_notification_clear_all)//notification icon
                 .setContentIntent(pIntent);//when user clicks the notification the app is opened
 

@@ -28,15 +28,17 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         TextView ScoreNumberView = (TextView) listItemView.findViewById(R.id.score_text_view);
         ScoreNumberView.setText(String.valueOf(currentScore.GetScoreNumber()));
 
-        String cornerScored = currentScore.GetCornerScored();
-        TextView CornerScoredNumberView = (TextView) listItemView.findViewById(R.id.corner_scored_text_view);
-        CornerScoredNumberView.setText(cornerScored);
+
+//        TextView CornerScoredNumberView = (TextView) listItemView.findViewById(R.id.corner_scored_text_view);
+//        CornerScoredNumberView.setText(cornerScored);
 
         TextView PointsScoredView = (TextView) listItemView.findViewById(R.id.points_scored_text_view);
         PointsScoredView.setText(currentScore.GetPointsScored());
 
         View containerView = (View)listItemView.findViewById(R.id.containerView);
         String redTeam = getContext().getString(R.string.red_corner);
+
+        String cornerScored = currentScore.GetCornerScored();
         if(cornerScored.equals(redTeam) ){
             containerView.setBackgroundColor(getContext().getColor(R.color.redColor));
         }

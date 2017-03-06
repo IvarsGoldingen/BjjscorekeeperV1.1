@@ -22,4 +22,5 @@
     <string name="score_control">Score control</string>
     <string name="no_time_error">Set time to at least 1 second</string>
     <string name="app_title">BJJ Scoreboard</string>
+    <string name="round_over_notification_message">Round over!</string>
 </resources>
