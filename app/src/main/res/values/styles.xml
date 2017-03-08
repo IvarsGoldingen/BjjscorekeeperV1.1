@@ -16,15 +16,6 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="corner_title_style">
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:textSize">@dimen/corner_name_text_size</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:padding">@dimen/corner_name_padding</item>
-    </style>
-
     <style name="point_display_style">
         <item name="android:layout_marginTop">@dimen/time_controls_button_margin_adjustment</item>
         <item name="android:layout_marginBottom">@dimen/time_controls_button_margin_adjustment
@@ -128,7 +119,6 @@
     </style>
 
     <style name="app_title_style_landscape">
-        <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:background">@color/main_screenbackground</item>
         <item name="android:textColor">@color/timer_digits_color</item>
         <item name="android:layout_height">wrap_content</item>

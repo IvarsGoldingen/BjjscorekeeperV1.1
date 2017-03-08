@@ -14,6 +14,12 @@
                 style="@style/history_view_style"
                 tools:text="111"/>
             <TextView
+                android:id="@+id/corner_scored_text_view"
+                style="@style/history_view_style"
+                android:padding="0dp"
+                tools:text="Red" />
+
+        <TextView
                 android:id="@+id/points_scored_text_view"
                 style="@style/history_view_style"
                 tools:text="+4 points"/>

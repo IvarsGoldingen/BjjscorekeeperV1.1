@@ -27,16 +27,15 @@ import static com.example.android.bjjscorekeeper.R.id.seconds;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int CTDWN_INTERVAL = 200;
     //values for the preferences implementation
-    MyPreferensesClass myPreferences;
-    TextView minutesField;
-    TextView secondsField;
-    Button startPauseResumeButton;
-    int lastSetMinutes=5;
-    int lastSetSeconds=0;
-    NumberFormat twoDigitFormat = new DecimalFormat("00");
-    MediaPlayer myMediaPlayer;
+    private MyPreferensesClass myPreferences;
+    private TextView minutesField;
+    private TextView secondsField;
+    private Button startPauseResumeButton;
+    private int lastSetMinutes = 5;
+    private int lastSetSeconds = 0;
+    private NumberFormat twoDigitFormat = new DecimalFormat("00");
+    private MediaPlayer myMediaPlayer;
     private TimerState myTimerState = TimerState.STOPPED;
     private int redPoints = 0;
     private int redAdvantages = 0;
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             };
-    MediaPlayer.OnCompletionListener myOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+    private MediaPlayer.OnCompletionListener myOnCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
             releaseMediaPlayer();
@@ -439,6 +438,7 @@ public class MainActivity extends AppCompatActivity {
     private void startTimer(long timerTime){
 
         if (cdTimer == null) {
+            int CTDWN_INTERVAL = 200;
             cdTimer = new CountDownTimer(timerTime, CTDWN_INTERVAL) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -595,8 +595,8 @@ public class MainActivity extends AppCompatActivity {
         //set the value in preferences to zero
         myPreferences.setStartedTime(0);
 
-        minutesField.setText("00");
-        secondsField.setText("00");
+        minutesField.setText(R.string.time_on_finish);
+        secondsField.setText(R.string.time_on_finish);
         startPauseResumeButton.setText(R.string.start);
         cdTimer = null;
         myTimerState = TimerState.STOPPED;

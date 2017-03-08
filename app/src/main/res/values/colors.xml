@@ -3,13 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
-    <color name="regularTextColor">#000000</color>
     <color name="redColor">#d11919</color>
     <color name="blueColor">#150df9</color>
     <color name="history_view_text_color">#ffffff</color>
     <color name="history_item_devider">#000000</color>
-    <color name="control_buttons_text_color">#000000</color>
     <color name="timer_digits_color">#000000</color>
     <color name="points_button_text_color">#ffffff</color>
     <color name="control_button_background">#454545</color>

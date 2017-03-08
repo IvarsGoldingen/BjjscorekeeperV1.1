@@ -1,7 +1,7 @@
 package com.example.android.bjjscorekeeper;
 
 import android.app.Activity;
-import android.support.v4.content.ContextCompat;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +29,7 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         ScoreNumberView.setText(String.valueOf(currentScore.GetScoreNumber()));
 
 
-//        TextView CornerScoredNumberView = (TextView) listItemView.findViewById(R.id.corner_scored_text_view);
-//        CornerScoredNumberView.setText(cornerScored);
+
 
         TextView PointsScoredView = (TextView) listItemView.findViewById(R.id.points_scored_text_view);
         PointsScoredView.setText(currentScore.GetPointsScored());
@@ -39,11 +38,17 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         String redTeam = getContext().getString(R.string.red_corner);
 
         String cornerScored = currentScore.GetCornerScored();
-        if(cornerScored.equals(redTeam) ){
-            containerView.setBackgroundColor(getContext().getColor(R.color.redColor));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (cornerScored.equals(redTeam)) {
+                containerView.setBackgroundColor(getContext().getColor(R.color.redColor));
+            } else {
+                containerView.setBackgroundColor(getContext().getColor(R.color.blueColor));
+            }
         }
         else{
-            containerView.setBackgroundColor(getContext().getColor(R.color.blueColor));
+            //if the container's color can't be set because of older SDK, use text
+            TextView CornerScoredNumberView = (TextView) listItemView.findViewById(R.id.corner_scored_text_view);
+            CornerScoredNumberView.setText(cornerScored);
         }
         //getResources().getString(R.string.blue_corner)
         return listItemView;

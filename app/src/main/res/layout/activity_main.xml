@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -22,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/all_control_button_height"
             android:layout_marginBottom="@dimen/portrait_category_margin_vertcal"
+            android:contentDescription="@string/title_image_desc"
             android:src="@drawable/blackbelt" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +43,7 @@
                 <ImageButton
                     android:id="@+id/minutes_plus"
                     style="@style/time_amount_control_buttons_stye"
+                    android:contentDescription="@string/minutes_plus_image_desc"
                     android:src="@drawable/ic_arrow_drop_up_black_24dp" />
 
                 <TextView
@@ -53,6 +54,7 @@
                 <ImageButton
                     android:id="@+id/minutes_minus"
                     style="@style/time_amount_control_buttons_stye"
+                    android:contentDescription="@string/minutes_minus_image_desc"
                     android:src="@drawable/ic_arrow_drop_down_black_24dp" />
             </LinearLayout>
 
@@ -68,6 +70,7 @@
                 <ImageButton
                     android:id="@+id/seconds_plus"
                     style="@style/time_amount_control_buttons_stye"
+                    android:contentDescription="@string/seconds_plus_image_desc"
                     android:src="@drawable/ic_arrow_drop_up_black_24dp" />
 
                 <TextView
@@ -78,6 +81,7 @@
                 <ImageButton
                     android:id="@+id/seconds_minus"
                     style="@style/time_amount_control_buttons_stye"
+                    android:contentDescription="@string/seconds_minus_image_desc"
                     android:src="@drawable/ic_arrow_drop_down_black_24dp" />
             </LinearLayout>
 

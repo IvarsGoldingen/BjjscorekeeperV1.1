@@ -3,13 +3,24 @@ package com.example.android.bjjscorekeeper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 
 /**
  * Created by Ivars on 2017.01.28..
  */
 
 public class Score implements Parcelable {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Score> CREATOR = new Parcelable.Creator<Score>() {
+        @Override
+        public Score createFromParcel(Parcel in) {
+            return new Score(in);
+        }
+
+        @Override
+        public Score[] newArray(int size) {
+            return new Score[size];
+        }
+    };
     private int mScoreNumber;
     private String mCornerScored;
     private String mPointsScored;
@@ -20,18 +31,20 @@ public class Score implements Parcelable {
         mPointsScored=pointsScored;
     }
 
-    public int GetScoreNumber(){return mScoreNumber;}
-    public String GetCornerScored(){
-        return mCornerScored;
-    }
-    public String GetPointsScored(){
-        return mPointsScored;
-    }
-
-    protected Score(Parcel in) {
+    private Score(Parcel in) {
         mScoreNumber = in.readInt();
         mCornerScored = in.readString();
         mPointsScored = in.readString();
+    }
+
+    public int GetScoreNumber(){return mScoreNumber;}
+
+    public String GetCornerScored(){
+        return mCornerScored;
+    }
+
+    public String GetPointsScored(){
+        return mPointsScored;
     }
 
     @Override
@@ -45,17 +58,4 @@ public class Score implements Parcelable {
         dest.writeString(mCornerScored);
         dest.writeString(mPointsScored);
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Score> CREATOR = new Parcelable.Creator<Score>() {
-        @Override
-        public Score createFromParcel(Parcel in) {
-            return new Score(in);
-        }
-
-        @Override
-        public Score[] newArray(int size) {
-            return new Score[size];
-        }
-    };
 }
